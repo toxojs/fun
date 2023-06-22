@@ -7,7 +7,7 @@ function getAtPath(x, path) {
     return undefined;
   }
   let current = x;
-  const pathArr = atPath(path);
+  const pathArr = Array.isArray(path) ? path : atPath(path);
   for (let i = 0; i < pathArr.length; i += 1) {
     const index = pathArr[i];
     try {

@@ -1,20 +1,12 @@
 const curry3 = require('./curry3');
-const getAt = require('./get-at');
 const atPath = require('./at-path');
+const getAtPath = require('./get-at-path');
 
-function setAtPathMut(x, path, value) {
-  let current = x;
-  const pathArr = atPath(path);
-  for (let i = 0; i < pathArr.length - 1; i += 1) {
-    const index = pathArr[i];
-    current = getAt(
-      current,
-      index.startsWith('[') ? index.slice(1, -1) : index
-    );
-  }
-  const index = pathArr[pathArr.length - 1];
-  current[index.startsWith('[') ? index.slice(1, -1) : index] = value;
-  return x;
+function setAtPathMut(obj, path, value) {
+  const routes = Array.isArray(path) ? path : atPath(path);
+  const current = getAtPath(obj, routes.slice(0, -1));
+  const route = routes[routes.length - 1];
+  current[route.startsWith('[') ? route.slice(1, -1) : route] = value;
 }
 
 module.exports = curry3(setAtPathMut);
